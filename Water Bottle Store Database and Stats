@@ -1,0 +1,32 @@
+--Create a water bottle store database
+
+CREATE TABLE Bottles (ID INTEGER PRIMARY KEY, size NUMERIC, color TEXT, price INTEGER, quantity INTEGER);
+
+INSERT INTO Bottles VALUES
+(1, "32 oz", "red", 6.50, 5),
+(2, "32 oz", "blue", 6.50, 3),
+(3, "32 oz", "white", 6.50, 3),
+(4, "32 oz", "yellow", 6.50, 4),
+(5, "32 oz", "green", 6.50, 1),
+(6, "16 oz", "red", 4, 7),
+(7, "16 oz", "blue", 4, 3),
+(8, "16 oz", "white", 4, 5),
+(9, "16 oz", "yellow", 4, 8),
+(10, "16 oz", "green", 4, 5),
+(11, "8 oz", "red", 2, 10),
+(12, "8 oz", "blue", 2, 12),
+(13, "8 oz", "white", 2, 11),
+(14, "8 oz", "yellow", 2, 15),
+(15, "8 oz", "green", 2, 8);
+
+--added total cost per line item to table.
+SELECT *, SUM(price*quantity) total_cost FROM Bottles GROUP BY ID;
+
+--what is the quantity and total cost of our bottles by size?
+SELECT size, SUM(quantity) total_quantity, SUM(price*quantity) total_cost FROM bottles GROUP BY size;
+
+--what is the quantity and total cost of our bottles by color?
+SELECT color, SUM(quantity) total_quantity, SUM(price*quantity) total_cost FROM bottles GROUP BY color;
+
+--what is our quantity and total cost of our inventory?
+SELECT SUM(quantity) total_quantity, SUM(price*quantity) total_cost FROM bottles;
