@@ -1,0 +1,78 @@
+CREATE TABLE Pro_Bowl
+    (id real,
+    name text,
+    age integer,
+    team_id integer,
+    position_id integer,
+    years_played integer);
+
+INSERT INTO Pro_Bowl VALUES
+    (1, "Jalen Hurts", 24, 1, 1, 3),
+    (2, "Saquon Barkley", 25, 2, 2, 5),
+    (3, "Kyle Juszczk", 31, 3, 3, 10),
+    (4, "Justin Jefferson", 23, 4, 4, 3),
+    (5, "Authur Brown", 25, 1, 4, 4),
+    (6, "George Kittle", 29, 3, 5, 6),
+    (7, "Trent Williams", 34, 3, 6, 13),
+    (8, "Lane Johnson", 32, 1, 6, 10),
+    (9, "Zack Martin", 32, 5, 7, 9),
+    (10, "Landon Dickerson", 24, 1, 7, 2),
+    (11, "Jason Kelce", 35, 1, 8, 12);
+
+CREATE TABLE teams
+    (id real,
+    team text);
+
+INSERT INTO teams VALUES
+    (1, "Eagles"),
+    (2, "Giants"),
+    (3, "49ers"),
+    (4, "Vikings"),
+    (5, "Cowboys");
+
+CREATE TABLE positions
+    (id real,
+    position text);
+
+INSERT INTO positions VALUES
+    (1, "Quarterback"),
+    (2, "Runningback"),
+    (3, "Fullback"),
+    (4, "Wide Receiver"),
+    (5, "Tight End"),
+    (6, "Offensive Tackle"),
+    (7, "Offensive Guard"),
+    (8, "Center");
+    
+–Who are the starters for the Pro Bowl NFC offense?
+SELECT Pro_Bowl.name, positions.position
+FROM Pro_Bowl
+JOIN positions
+    ON Pro_Bowl.position_id=positions.id;
+   
+–Which of the starters have 10 or more years of experience?
+SELECT Pro_Bowl.name, positions.position, Pro_Bowl.years_played AS '>=10 years'
+FROM Pro_Bowl
+JOIN positions
+    ON Pro_Bowl.position_id = positions.id
+WHERE Pro_Bowl.years_played >=10;
+
+–Which of the starters have 5 or less years of experience?
+SELECT Pro_Bowl.name, positions.position, Pro_Bowl.years_played AS '<=5 years'
+FROM Pro_Bowl
+JOIN positions
+    ON Pro_Bowl.position_id = positions.id
+WHERE Pro_Bowl.years_played <=5;
+
+–How many have played on the same team?
+SELECT COUNT(*) AS number_players, teams.team
+FROM Pro_Bowl
+JOIN teams
+    ON Pro_Bowl.team_id = teams.id
+GROUP BY teams.team;
+
+–What is the average, oldest, and youngest age for the starters?
+SELECT ROUND(AVG(age)) AS Average_age,
+    MAX(age) AS Oldest,
+    MIN(age) AS Youngest
+FROM Pro_Bowl;
