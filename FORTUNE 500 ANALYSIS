@@ -1,0 +1,40 @@
+--FORTUNE 500 ANALYSIS
+
+
+--1. Is there a correlation between the revenue of a company and the length of the maternity leave they provide?
+
+SELECT company_name, revenue, maternity_leave_weeks
+FROM fortune_companies
+ORDER BY maternity_leave_weeks DESC;
+
+--2. What is the average revenue per employee at each company?
+
+SELECT company_name, revenue, employees, ROUND((revenue/employees),2) AS 'rev_per_employee'
+FROM fortune_companies
+ORDER BY rev_per_employee DESC;
+
+--3. Does the number of days off and maternity leave effect the revenue of the company?
+
+SELECT company_name, revenue, paid_time_off_days, maternity_leave_weeks,
+(maternity_leave_weeks*7) AS 'maternity_leave_days'
+FROM fortune_companies
+ORDER BY maternity_leave_days DESC;
+
+--4. Does the availability of healthcare affect the tenure of employees?
+
+SELECT company_name,
+CASE WHEN avg_employee_tenure >=7 THEN '>7 years'
+WHEN avg_employee_tenure >=6 THEN '>6 years'
+WHEN avg_employee_tenure >=5 THEN '>5 years'
+ELSE '>4 years' END AS tenure_years
+FROM fortune_companies
+WHERE healthcare_benefits=1
+ORDER BY tenure_years DESC;
+
+--5. What are the top companies with the best benefits?
+
+SELECT *
+FROM fortune_companies
+WHERE healthcare_benefits=1
+AND paid_time_off_days>=20
+AND maternity_leave_weeks>=14;
